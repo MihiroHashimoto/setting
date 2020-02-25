@@ -100,6 +100,7 @@ endif
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap gb gT
 filetype on
 filetype plugin indent on
 " 文字コードをUFT-8に設定
