@@ -261,6 +261,11 @@ map <S-D-e> :NERDTreeToggle<CR>
 " How can I open a NERDTree automatically when vim starts up if no files were specified?
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" NERDTreeを現在開いているタブファイルパスと同期する
+autocmd BufEnter * lcd %:p:h
+" ドットファイルを可視化
 let g:NERDTreeShowHidden=1
 
 " === scrooloose/nerdcommenter ===
