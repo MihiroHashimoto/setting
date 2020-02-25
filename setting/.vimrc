@@ -100,7 +100,6 @@ endif
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
-nnoremap gb gT
 filetype on
 filetype plugin indent on
 " 文字コードをUFT-8に設定
@@ -211,7 +210,7 @@ set clipboard=unnamed
 set list
 set listchars=tab:\▸\-
 " set listchars=tab:\▸\-,space:.
-" hi SpecialKey ctermbg=NONE ctermfg=100
+hi SpecialKey ctermbg=NONE ctermfg=100
 " 常にタブラインを表示
 set showtabline=2
 " Tab文字を半角スペースにする
@@ -225,11 +224,18 @@ set softtabstop=2
 set autoindent
 " 改行時に前の行の構文をチェックし次の行のインデントを増減する
 set smartindent
+" 左のタブに移動
+nnoremap gb gT
+" バッファを新規タブで開く
+command! -nargs=1 B call TabSb(<f-args>)
+function! TabSb(number)
+  exe ":tab sb" . a:number
+endfunction
 
 " === indentLine ===
 " https://github.com/Yggdroot/indentLine
 let g:indentLine_color_term = 245
-let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_char_list = ['|']
 
 " === t9md/vim-textmanip ===
 "
