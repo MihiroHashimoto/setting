@@ -52,7 +52,7 @@ if dein#load_state('/Users/mihiro/.cache/dein')
   " jsdoc
   call dein#add('heavenshell/vim-jsdoc')
   " git conflict markers
-  call dein#add('rhysd/conflict-marker.vim')
+  call dein#add('rhysd/coflict-marker.vim')
   " Required:
   call dein#end()
   call dein#save_state()
