@@ -7,11 +7,11 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/mihiro.h/.cache/dein')
-  call dein#begin('/Users/mihiro.h/.cache/dein')
+if dein#load_state('/Users/mihiro/.cache/dein')
+  call dein#begin('/Users/mihiro/.cache/dein')
 
   " Let dein manage dein
   " Required:
@@ -51,6 +51,8 @@ if dein#load_state('/Users/mihiro.h/.cache/dein')
   call dein#add('wavded/vim-stylus')
   " jsdoc
   call dein#add('heavenshell/vim-jsdoc')
+  " git conflict markers
+  call dein#add('rhysd/conflict-marker.vim')
   " Required:
   call dein#end()
   call dein#save_state()
