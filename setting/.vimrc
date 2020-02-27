@@ -7,11 +7,11 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-  if dein#load_state('/Users/mihiro/.cache/dein')
-  call dein#begin('/Users/mihiro/.cache/dein')
+if dein#load_state('/Users/mihiro.h/.cache/dein')
+  call dein#begin('/Users/mihiro.h/.cache/dein')
 
   " Let dein manage dein
   " Required:
@@ -49,6 +49,8 @@ set runtimepath+=/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim
   call dein#add('w0rp/ale')
   " stylus
   call dein#add('wavded/vim-stylus')
+  " jsdoc
+  call dein#add('heavenshell/vim-jsdoc')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -343,6 +345,7 @@ omap / <Plug>(easymotion-tn)
 " === ctrlpvim/ctrlp.vim ===
 "
 " https://github.com/ctrlpvim/ctrlp.vim
+" :help ctrlp-input-formats
 " wildignore
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 " Ignore files in .gitignore
@@ -384,5 +387,4 @@ let g:ale_linters = {
 " === trailing-whitespace ===
 "
 autocmd BufWritePre * :FixWhitespace
-
 
