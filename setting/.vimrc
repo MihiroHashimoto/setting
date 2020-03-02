@@ -16,6 +16,8 @@ if dein#load_state('/Users/mihiro/.cache/dein')
   " Let dein manage dein
   " Required:
   call dein#add('/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim')
+  " color scheme
+  call dein#add('morhetz/gruvbox')
   " dirctory tree
   call dein#add('scrooloose/nerdtree')
   " sublime search
@@ -51,8 +53,14 @@ if dein#load_state('/Users/mihiro/.cache/dein')
   call dein#add('wavded/vim-stylus')
   " jsdoc
   call dein#add('heavenshell/vim-jsdoc')
+  " git(for displaying branch name in status line)
+  call dein#add('tpope/vim-fugitive')
   " git conflict markers
   call dein#add('rhysd/conflict-marker.vim')
+  " status line
+  call dein#add('vim-airline/vim-airline')
+  " airline-theme
+  call dein#add('vim-airline/vim-airline-themes')
   " Required:
   call dein#end()
   call dein#save_state()
@@ -76,26 +84,26 @@ if has('autocmd') " ignore this section if your vim does not support autocommand
         autocmd! BufWritePost $MYVIMRC,$MYGVIMRC nested source %
     augroup END
     " highlight
-    autocmd ColorScheme * highlight Visual ctermfg=81 ctermbg=24
-    autocmd ColorScheme * highlight Directory ctermfg=81
-    autocmd ColorScheme * highlight Identifier ctermfg=135
-    autocmd ColorScheme * highlight Function ctermfg=161
-    autocmd ColorScheme * highlight Type ctermfg=231
+    " autocmd ColorScheme * highlight Visual ctermfg=81 ctermbg=24
+    " autocmd ColorScheme * highlight Directory ctermfg=81
+    " autocmd ColorScheme * highlight Identifier ctermfg=135
+    " autocmd ColorScheme * highlight Function ctermfg=161
+    " autocmd ColorScheme * highlight Type ctermfg=231
     " autocmd ColorScheme * highlight Identifier ctermfg=231
-    autocmd ColorScheme * highlight Comment ctermfg=245
-    autocmd ColorScheme * highlight Normal ctermfg=255
-    autocmd ColorScheme * highlight Statement ctermfg=161
-    autocmd ColorScheme * highlight Underlined ctermfg=15
-    autocmd ColorScheme * highlight String ctermfg=121
-    autocmd ColorScheme * highlight Number ctermfg=135
-    autocmd ColorScheme * highlight Exception ctermfg=81
-    autocmd ColorScheme * highlight Title ctermfg=229
-    autocmd ColorScheme * highlight StorageClass ctermfg=45
-    autocmd ColorScheme * highlight Include ctermfg=161
-    autocmd ColorScheme * highlight MatchParen ctermfg=161 ctermbg=NONE
+    " autocmd ColorScheme * highlight Comment ctermfg=245
+    " autocmd ColorScheme * highlight Normal ctermfg=255
+    " autocmd ColorScheme * highlight Statement ctermfg=161
+    " autocmd ColorScheme * highlight Underlined ctermfg=15
+    " autocmd ColorScheme * highlight String ctermfg=121
+    " autocmd ColorScheme * highlight Number ctermfg=135
+    " autocmd ColorScheme * highlight Exception ctermfg=81
+    " autocmd ColorScheme * highlight Title ctermfg=229
+    " autocmd ColorScheme * highlight StorageClass ctermfg=45
+    " autocmd ColorScheme * highlight Include ctermfg=161
     " autocmd ColorScheme * highlight MatchParen ctermfg=161 ctermbg=231
-    autocmd ColorScheme * highlight Search ctermfg=81 ctermbg=24
-    autocmd ColorScheme * highlight SpecialKey ctermfg=231
+    " autocmd ColorScheme * highlight Search ctermfg=81 ctermbg=24
+    autocmd ColorScheme * highlight Search ctermfg=109
+    " autocmd ColorScheme * highlight SpecialKey ctermfg=231
 
     autocmd VimEnter,WinEnter,BufNewFile,BufRead,BufEnter,TabEnter * IndentLinesReset
 endif
@@ -105,8 +113,13 @@ endif
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap j gj
+nnoremap k gk
+nnoremap <C-l> zz
+nnoremap <S-*> g*
 filetype on
 filetype plugin indent on
+set iskeyword-=$,.,-
 " 文字コードをUFT-8に設定
 set fenc=utf-8
 " バックアップファイルを作らない
@@ -129,13 +142,6 @@ set formatoptions-=ro
 set laststatus=2
 " コマンドラインの補完
 set wildmode=list:longest
-" 折り返し時に表示行単位での移動できるようにする
-nnoremap j gj
-nnoremap k gk
-
-nnoremap <C-l> zz
-
-inoremap <silent> <C-Space> <ESC>
 
 " 検索系
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
@@ -173,9 +179,7 @@ endif
 
 " syntax
 syntax on
-set background=dark
-set t_Co=256
-colorscheme molokai
+" colorscheme molokai
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
     highlight ZenkakuSpace cterm=reverse ctermfg=DarkMagenta gui=reverse guifg=DarkMagenta
@@ -194,6 +198,7 @@ endif
 set clipboard=unnamed
 
 " paste
+"
 " ペースト設定
 " if &term =~ "xterm"
     " let &t_ti .= "\e[?2004h"
@@ -353,6 +358,11 @@ omap / <Plug>(easymotion-tn)
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 " Ignore files in .gitignore
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" CtrlPBuffer
+if !has('gui_running')
+  map VimCtrlPBuffer <S-D-b><CR>
+endif
+map <S-D-b> :CtrlPBuffer
 
 " 自動的にquickfix-windowを開く
 autocmd QuickFixCmdPost *grep* cwindow
@@ -373,8 +383,11 @@ let g:neocomplete#enable_ignore_case = 1
 " 保存時のみ実行する
 let g:ale_lint_on_text_changed = 0
 " 表示に関する設定
-let g:ale_sign_error = '🚨'
-let g:ale_sign_warning = '⚠️'
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+" let g:ale_sign_error = '🚨'
+" let g:ale_sign_warning = '⚠️'
 let g:airline#extensions#ale#open_lnum_symbol = '('
 let g:airline#extensions#ale#close_lnum_symbol = ')'
 let g:ale_echo_msg_format = '[%linter%]%code: %%s'
@@ -390,4 +403,28 @@ let g:ale_linters = {
 " === trailing-whitespace ===
 "
 autocmd BufWritePre * :FixWhitespace
+
+" === vim-airline ===
+"
+" https://github.com/vim-airline/vim-airline
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#wordcount#enabled = 0
+let g:airline#extensions#default#layout = [['a', 'b', 'c'], ['x', 'y', 'z']]
+let g:airline_section_c = '%t'
+let g:airline_section_x = '%{&filetype}'
+let g:airline_section_z = '%3l:%2v %{airline#extensions#ale#get_warning()} %{airline#extensions#ale#get_error()}'
+let g:airline#extensions#default#section_truncate_width = {}
+let g:airline#extensions#whitespace#enabled = 1
+
+" === gruvbox ===
+"
+" https://github.com/morhetz/gruvbox
+colorscheme gruvbox
+set background=dark
+set t_Co=256
+let g:ligthline = { 'colorscheme': 'gruvbox' }
+let g:gruvbox_contrast_dark = 'soft'
 
