@@ -7,15 +7,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/mihiro/.cache/dein')
-  call dein#begin('/Users/mihiro/.cache/dein')
+if dein#load_state('/Users/mihiro.h/.cache/dein')
+  call dein#begin('/Users/mihiro.h/.cache/dein')
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/mihiro/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim')
   " color scheme
   call dein#add('morhetz/gruvbox')
   " dirctory tree
@@ -36,8 +36,8 @@ if dein#load_state('/Users/mihiro/.cache/dein')
   call dein#add('Townk/vim-autoclose')
   " text move, duplication
   call dein#add('t9md/vim-textmanip')
-  " colorHeighlight
-  call dein#add('gko/vim-coloresque')
+  " vim-css-color
+  call dein#add('ap/vim-css-color')
   " コード補完
   call dein#add('Shougo/neocomplete.vim')
   call dein#add('Shougo/neosnippet-snippets')
@@ -119,7 +119,7 @@ nnoremap <C-l> zz
 nnoremap <S-*> g*
 filetype on
 filetype plugin indent on
-set iskeyword-=$,.,-
+set iskeyword-=.
 " 文字コードをUFT-8に設定
 set fenc=utf-8
 " バックアップファイルを作らない
