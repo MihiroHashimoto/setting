@@ -117,6 +117,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <C-l> zz
 nnoremap <S-*> g*
+nnoremap cl :ccl<CR>
 filetype on
 filetype plugin indent on
 set iskeyword-=.
@@ -277,6 +278,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd BufEnter * lcd %:p:h
 " ドットファイルを可視化
 let g:NERDTreeShowHidden=1
+let g:NERDTreeIgnore = ['^node_modules$', '^.git$', '^.DS_Store$', '.css.map$']
 
 " === scrooloose/nerdcommenter ===
 "
@@ -347,8 +349,8 @@ map <Leader> <Plug>(easymotion-prefix)
 " nmap s <Plug>(easymotion-s2)
 " nmap t <Plug>(easymotion-t2)
 " Gif config
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
 
 " === ctrlpvim/ctrlp.vim ===
 "
@@ -360,9 +362,9 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " CtrlPBuffer
 if !has('gui_running')
-  map VimCtrlPBuffer <S-D-b><CR>
+  map VimCtrlPBuffer <D-b><CR>
 endif
-map <S-D-b> :CtrlPBuffer
+map <D-b> :CtrlPBuffer
 
 " 自動的にquickfix-windowを開く
 autocmd QuickFixCmdPost *grep* cwindow
