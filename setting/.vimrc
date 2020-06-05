@@ -5,17 +5,14 @@
 if &compatible
   set nocompatible               " Be iMproved
 endif
-
 " Required:
-set runtimepath+=/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim
-
+set runtimepath+=/Users/mihiro.h/.vim/dein/repos/github.com/Shougo/dein.vim
 " Required:
-if dein#load_state('/Users/mihiro.h/.cache/dein')
-  call dein#begin('/Users/mihiro.h/.cache/dein')
-
+if dein#load_state('/Users/mihiro.h/.vim/dein')
+  call dein#begin('/Users/mihiro.h/.vim/dein')
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/mihiro.h/.cache/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('/Users/mihiro.h/.vim/dein/repos/github.com/Shougo/dein.vim')
   " color scheme
   call dein#add('morhetz/gruvbox')
   " dirctory tree
@@ -61,6 +58,12 @@ if dein#load_state('/Users/mihiro.h/.cache/dein')
   call dein#add('vim-airline/vim-airline')
   " airline-theme
   call dein#add('vim-airline/vim-airline-themes')
+  " editor config
+  call dein#add('editorconfig/editorconfig-vim')
+  " markdown
+  " call dein#add('plasticboy/vim-markdown')
+  " call dein#add('previm/previm')
+  " call dein#add('tyru/open-browser.vim' )
   " Required:
   call dein#end()
   call dein#save_state()
@@ -180,6 +183,9 @@ endif
 
 " syntax
 syntax on
+" === sheerun/vim-polyglot ===
+" ~/.vimrc, declare this variable before polyglot is loaded
+let g:polyglot_disabled = ['markdown']
 " colorscheme molokai
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
@@ -404,7 +410,16 @@ let g:ale_linters = {
 
 " === trailing-whitespace ===
 "
-autocmd BufWritePre * :FixWhitespace
+" 行末のスペースを削除(markdownファイル以外)
+fun! StripTrailingWhitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'markdown'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
 
 " === vim-airline ===
 "
@@ -430,3 +445,12 @@ set t_Co=256
 let g:ligthline = { 'colorscheme': 'gruvbox' }
 let g:gruvbox_contrast_dark = 'soft'
 
+" === markdown ===
+
+command! Shiba :silent call system('shiba ' . expand('%') . ' &>/dev/null 2>&1 &') | redraw!
+autocmd BufRead,BufNewFile *.md  set filetype=markdown
+" nnoremap <silent> <C-m> :PrevimOpen<CR>
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
+" let g:vim_markdown_folding_disabled=1
+" let g:previm_enable_realtime=1
