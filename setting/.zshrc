@@ -28,7 +28,11 @@ PS1=$'\n%c%F{#08e6e6}$(__git_ps1 " (%s)")%f\n%# '
 export HISTTIMEFORMAT='%F %T '
 
 export PATH="$HOME/.anyenv/bin:$PATH"
-eval "$(anyenv init - zsh)"
+eval "$(anyenv init -)"
+
+if [ -f ${HOME}/.yvm/yvm.sh ]; then
+       source ~/.yvm/yvm.sh
+fi
 
 # yarn
 export PATH="$PATH:`yarn global bin`"
@@ -102,3 +106,5 @@ function peco-get-destination-from-cdr() {
 
 export YVM_DIR=/Users/mihiro.h/.yvm
 [ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
