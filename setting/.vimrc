@@ -120,6 +120,15 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <C-l> zz
 nnoremap <S-*> g*
+
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
 nnoremap cl :ccl<CR>
 filetype on
 filetype plugin indent on
@@ -146,6 +155,8 @@ set formatoptions-=ro
 set laststatus=2
 " コマンドラインの補完
 set wildmode=list:longest
+" 80文字目にラインを入れる
+set colorcolumn=80
 
 " 検索系
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
