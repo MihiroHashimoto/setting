@@ -108,3 +108,5 @@ export YVM_DIR=/Users/mihiro.h/.yvm
 [ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export PATH="$HOME/anaconda3/bin:$PATH"

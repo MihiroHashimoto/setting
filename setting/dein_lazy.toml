@@ -1,3 +1,15 @@
+[[plugins]] # exec script
+repo = 'thinca/vim-quickrun'
+on_ft = ['python']
+hook_add = '''
+  nnoremap <Leader>r :QuickRun<CR>
+'''
+
+[[plugins]] # exec script
+repo = 'Shougo/vimproc.vim'
+on_ft = ['python']
+build = 'make'
+
 [[plugins]] # sublime search
 repo = 'ctrlpvim/ctrlp.vim'
 on_path = '.*'
@@ -18,7 +30,6 @@ hook_add = '''
 repo = 'easymotion/vim-easymotion'
 on_path = '.*'
 hook_add = '''
-  " Default bindings
   map <Leader> <Plug>(easymotion-prefix)
 '''
 
@@ -167,13 +178,14 @@ hook_add = '''
   " nmap <silent> <C-j> <Plug>(ale_next_wrap)
   let g:ale_linters = {
   \   'javascript': ['eslint'],
+  \   'python'    : ['flake8']
   \}
 '''
 
 [[plugins]] # status line
 repo = 'vim-airline/vim-airline'
 on_source = 'ale'
-depends = ['/vim-airline-themes']
+depends = ['vim-airline-themes']
 
 [[plugins]] # airline-theme
 repo = 'vim-airline/vim-airline-themes'

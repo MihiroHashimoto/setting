@@ -29,6 +29,17 @@ if dein#load_state(s:dein_dir)
   call dein#end()
   call dein#save_state()
 endif
+
+let g:make = 'gmake'
+if exists('make')
+    let g:make = 'make'
+endif
+
+" use only python3
+if has('python3')
+endif
+" set pythonthreedll='/Users/mihiro/opt/anaconda3/bin/python'
+
 " 不足プラグインの自動インストール
 if has('vim_starting') && dein#check_install()
   call dein#install()
@@ -54,6 +65,7 @@ endif
 let mapleader = "\<Space>"
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap <Leader>wq :wq<CR>
 nnoremap j gj
 nnoremap k gk
 nnoremap <C-l> zz
@@ -112,6 +124,9 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 
 " yank
 set clipboard=unnamed
+
+set splitright
+set splitbelow
 
 " 自動的にquickfix-windowを開く
 autocmd QuickFixCmdPost *grep* cwindow
