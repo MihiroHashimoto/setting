@@ -37,6 +37,7 @@ endif
 
 " use only python3
 if has('python3')
+  silent! python3 1
 endif
 " set pythonthreedll='/Users/mihiro/opt/anaconda3/bin/python'
 
@@ -121,6 +122,8 @@ set wrapscan
 set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" 補完時のpreviewウィンドウを表示しない
+set completeopt=menuone
 
 " yank
 set clipboard=unnamed

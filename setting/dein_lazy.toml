@@ -1,13 +1,49 @@
+# [[plugins]] # for python
+# repo = 'davidhalter/jedi-vim'
+# on_ft = ['python']
+# hook_add = '''
+  # let g:jedi#force_py_version = 3
+  # " let g:jedi#popup_on_dot = 0
+  # " let g:jedi#goto_assignments_command = "<leader>g"
+  # " let g:jedi#goto_definitions_command = "<leader>d"
+  # " let g:jedi#documentation_command = "K"
+  # " let g:jedi#usages_command = "<leader>n"
+  # " let g:jedi#rename_command = "<leader>r"
+  # " let g:jedi#show_call_signatures = "0"
+  # " let g:jedi#completions_command = "<C-Space>"
+  # " let g:jedi#smart_auto_mappings = 0
+  # " autocmd FileType python setlocal completeopt-=preview
+# '''
+
+# [[plugins]] # autocomplete for python
+# repo = 'Valloric/YouCompleteMe'
+# on_ft = ['python']
+# hook_add = '''
+  # let g:ycm_auto_trigger = 1
+  # let g:ycm_autoclose_preview_window_after_insertion = 1
+  # let g:ycm_min_num_of_chars_for_completion = 3
+  # set splitbelow
+# '''
+# deoplete------------------
+
+# [[plugins]]
+# repo = 'Shougo/deoplete.nvim'
+# on_i = 1
+# hook_add = '''
+# let g:deoplete#enable_at_startup   = 1
+# let g:deoplete#auto_complete_delay = 0
+# '''
+
 [[plugins]] # exec script
 repo = 'thinca/vim-quickrun'
-on_ft = ['python']
+on_ft = ['python', 'php']
 hook_add = '''
   nnoremap <Leader>r :QuickRun<CR>
 '''
 
 [[plugins]] # exec script
 repo = 'Shougo/vimproc.vim'
-on_ft = ['python']
+on_ft = ['python', 'php']
 build = 'make'
 
 [[plugins]] # sublime search
@@ -141,11 +177,16 @@ on_i = 1
 hook_add = '''
   " 起動時に有効
   let g:neocomplete#enable_at_startup = 1
-  "” ポップアップメニューで表示される候補の数
+  " ポップアップメニューで表示される候補の数
   let g:neocomplete#max_list = 10
-  "“キーワードの長さ、デフォルトで80
+  "キーワードの長さ、デフォルトで80
   let g:neocomplete#max_keyword_width = 80
   let g:neocomplete#enable_ignore_case = 1
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType python setlocal omnifunc=python3complete#Complete
 '''
 
 [[plugins]] # snippets

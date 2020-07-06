@@ -69,7 +69,7 @@ repo = 'Shougo/vimshell.vim'
 hook_add = '''
   " nnoremap <Leader>sh :VimShellPop<CR>
   " nnoremap <Leader>sh :vertical terminal<CR>
-  nnoremap <Leader>sh :terminal ++rows=10<CR>
+  nnoremap <Leader>sh :terminal ++rows=30<CR>
   let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
   " let g:vimshell_prompt =  '$ '
 '''
