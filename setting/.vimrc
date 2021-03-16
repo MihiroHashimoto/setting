@@ -1,6 +1,10 @@
 " ↓update dein↓
 " call dein#update()
 
+" === sheerun/vim-polyglot ===
+" ~/.vimrc, declare this variable before polyglot is loaded
+let g:polyglot_disabled = ['markdown']
+
 "dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved
@@ -21,16 +25,14 @@ if dein#load_state('/Users/mihiro.h/.vim/dein')
   call dein#add('ctrlpvim/ctrlp.vim')
   " easymotion
   call dein#add('easymotion/vim-easymotion')
-  " display close tag
-  call dein#add('gregsexton/MatchTag')
   " commentout
-  call dein#add('scrooloose/nerdcommenter')
+  " call dein#add('scrooloose/nerdcommenter')
+  " auto close tag
+  call dein#add('Townk/vim-autoclose')
   " emmet-vim
   call dein#add('mattn/emmet-vim')
   " trailing-whitespace
   call dein#add('bronson/vim-trailing-whitespace')
-  " auto close tag
-  call dein#add('Townk/vim-autoclose')
   " text move, duplication
   call dein#add('t9md/vim-textmanip')
   " vim-css-color
@@ -81,17 +83,17 @@ endif
 "End dein Scripts-------------------------
 
 if has('autocmd') " ignore this section if your vim does not support autocommands
-    " auto reload .vimrc
-    augroup reload_vimrc
-        autocmd!
-        autocmd! BufWritePost $MYVIMRC,$MYGVIMRC nested source %
-    augroup END
-    " highlight
-    " autocmd ColorScheme * highlight Visual ctermfg=81 ctermbg=24
-    " autocmd ColorScheme * highlight Directory ctermfg=81
-    " autocmd ColorScheme * highlight Identifier ctermfg=135
-    " autocmd ColorScheme * highlight Function ctermfg=161
-    " autocmd ColorScheme * highlight Type ctermfg=231
+  " auto reload .vimrc
+  augroup reload_vimrc
+    autocmd!
+    autocmd! BufWritePost $MYVIMRC,$MYGVIMRC nested source %
+  augroup END
+  " highlight
+  " autocmd ColorScheme * highlight Visual ctermfg=81 ctermbg=24
+  " autocmd ColorScheme * highlight Directory ctermfg=81
+  " autocmd ColorScheme * highlight Identifier ctermfg=135
+  " autocmd ColorScheme * highlight Function ctermfg=161
+  " autocmd ColorScheme * highlight Type ctermfg=231
     " autocmd ColorScheme * highlight Identifier ctermfg=231
     " autocmd ColorScheme * highlight Comment ctermfg=245
     " autocmd ColorScheme * highlight Normal ctermfg=255
@@ -105,11 +107,23 @@ if has('autocmd') " ignore this section if your vim does not support autocommand
     " autocmd ColorScheme * highlight Include ctermfg=161
     " autocmd ColorScheme * highlight MatchParen ctermfg=161 ctermbg=231
     " autocmd ColorScheme * highlight Search ctermfg=81 ctermbg=24
-    autocmd ColorScheme * highlight Search ctermfg=109
+    autocmd ColorScheme * highlight Search ctermfg=167 ctermbg=236
+    " autocmd ColorScheme * highlight Search ctermfg=214 ctermbg=236
     " autocmd ColorScheme * highlight SpecialKey ctermfg=231
+    " autocmd ColorScheme * highlight Search ctermfg=7 ctermbg=0
 
     autocmd VimEnter,WinEnter,BufNewFile,BufRead,BufEnter,TabEnter * IndentLinesReset
+
+    " Insert template when BufNewFile if not exists the file.
+    autocmd BufRead *.vue if getfsize(expand('%'))==0|0r ~/.vim/templates/index.vue|endif
+    autocmd BufRead *.html if getfsize(expand('%'))==0|0r ~/.vim/templates/index.html|endif
+    autocmd BufNewFile *.vue 0r $HOME/.vim/templates/index.vue
+    autocmd BufNewFile *.html 0r $HOME/.vim/templates/index.html
 endif
+
+" All the languages Kite supports
+let g:kite_supported_languages = ['*']
+set completeopt=menuone,noselect
 
 " config
 " LeaderをSpaceキーにする
@@ -120,7 +134,12 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <C-l> zz
 nnoremap <S-*> g*
+
+" QuickFix
 nnoremap cl :ccl<CR>
+nnoremap cn :cn<CR>
+nnoremap cN :cN<CR>
+
 filetype on
 filetype plugin indent on
 set iskeyword-=.
@@ -146,6 +165,10 @@ set formatoptions-=ro
 set laststatus=2
 " コマンドラインの補完
 set wildmode=list:longest
+" 補完表示時のEnterで改行をしない
+inoremap <expr><CR>  pumvisible() ? '<C-y>' : '<CR>'
+" 正規表現は「バックトラックエンジン」のみを用いて処理（今回はsyntax highlightのため）
+set regexpengine=1
 
 " 検索系
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
@@ -160,6 +183,8 @@ set wrapscan
 set hlsearch
 " ESC連打でハイライト解除
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
+" 80文字の境界線
+set colorcolumn=80
 " insertmodeで移動
 imap <C-k> <Up>
 imap <C-j> <Down>
@@ -183,9 +208,6 @@ endif
 
 " syntax
 syntax on
-" === sheerun/vim-polyglot ===
-" ~/.vimrc, declare this variable before polyglot is loaded
-let g:polyglot_disabled = ['markdown']
 " colorscheme molokai
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
@@ -241,6 +263,8 @@ set softtabstop=2
 set autoindent
 " 改行時に前の行の構文をチェックし次の行のインデントを増減する
 set smartindent
+" 補完プレビューウィンドウを非表示にする
+" set completeopt=menuone
 " 左のタブに移動
 nnoremap gb gT
 " バッファを新規タブで開く
@@ -284,38 +308,39 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd BufEnter * lcd %:p:h
 " ドットファイルを可視化
 let g:NERDTreeShowHidden=1
+let g:NERDTreeWinSize=20
 let g:NERDTreeIgnore = ['^node_modules$', '^.git$', '^.DS_Store$', '.css.map$']
 
 " === scrooloose/nerdcommenter ===
 "
 " insert space after comment charactor
-let g:NERDSpaceDelims=1
-nmap <C-_> <Plug>NERDCommenterToggle
-vmap <C-_> <Plug>NERDCommenterToggle
-" for Vue
-let g:ft = ''
-function! NERDCommenter_before()
-  if &ft == 'vue'
-    let g:ft = 'vue'
-    let stack = synstack(line('.'), col('.'))
-    if len(stack) > 0
-      let syn = synIDattr((stack)[0], 'name')
-      if len(syn) > 0
-        exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
-      endif
-    endif
-  endif
-endfunction
-function! NERDCommenter_after()
-  if g:ft == 'vue'
-    setf vue
-    let g:ft = ''
-  endif
-endfunction
+" let g:NERDSpaceDelims=1
+" nmap <C-_> <Plug>NERDCommenterToggle
+" vmap <C-_> <Plug>NERDCommenterToggle
+" " for Vue
+" let g:ft = ''
+" function! NERDCommenter_before()
+"   if &ft == 'vue'
+"     let g:ft = 'vue'
+"     let stack = synstack(line('.'), col('.'))
+"     if len(stack) > 0
+"       let syn = synIDattr((stack)[0], 'name')
+"       if len(syn) > 0
+"         exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
+"       endif
+"     endif
+"   endif
+" endfunction
+" function! NERDCommenter_after()
+"   if g:ft == 'vue'
+"     setf vue
+"     let g:ft = ''
+"   endif
+" endfunction
 
 " === emmet ===
 "
-autocmd FileType html,css,scss,sass imap <buffer><expr><tab>
+autocmd FileType html,css,scss,sass,vue imap <buffer><expr><tab>
     \ emmet#isExpandable() ? "\<plug>(emmet-expand-abbr)" :
     \ "\<tab>"
 " lang ja
@@ -326,12 +351,12 @@ let g:user_emmet_settings = {
     \}
 " snippets 展開方法(html:5)
 let g:user_emmet_settings = {
-\  'variables' : {
-\    'lang' : "ja"
+\  'variables': {
+\    'lang': "ja"
 \  },
-\  'html' : {
-\    'indentation' : '  ',
-\    'snippets' : {
+\  'html': {
+\    'indentation': '  ',
+\    'snippets': {
 \      'html:5': "<!DOCTYPE html>\n"
 \        ."<html lang=\"${lang}\">\n"
 \        ."<head>\n"
@@ -341,7 +366,22 @@ let g:user_emmet_settings = {
 \        ."\t<title></title>\n"
 \        ."</head>\n"
 \        ."<body>\n\t${child}|\n</body>\n"
-\        ."</html>",
+\        ."</html>"
+\    }
+\  },
+\  'vue': {
+\    'indentation': '  ',
+\    'snippets': {
+\      'vue': ""
+\        ."<template lang=\"pug\"></template>\n"
+\        ."\n"
+\        ."<script>\n"
+\        ."export default {\n"
+\        ."\tname: ''\n"
+\        ."}\n"
+\        ."</script>\n"
+\        ."\n"
+\        ."<style lang=\"scss\" scoped></style>"
 \    }
 \  }
 \}
@@ -454,3 +494,11 @@ let g:vim_markdown_conceal = 0
 let g:vim_markdown_conceal_code_blocks = 0
 " let g:vim_markdown_folding_disabled=1
 " let g:previm_enable_realtime=1
+"
+" === complete me ===
+"
+" https://github.com/ackyshake/VimCompletesMe
+let g:ycm_auto_trigger = 1
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_autoclose_preview_window_after_insertion = 1
+set splitbelow

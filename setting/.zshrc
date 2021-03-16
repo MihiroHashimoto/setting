@@ -23,13 +23,21 @@ GIT_PS1_SHOWUPSTREAM=auto
 RPROMPT="%*"
 setopt PROMPT_SUBST
 PS1=$'\n%c%F{#08e6e6}$(__git_ps1 " (%s)")%f\n%# '
+# PS1=$'\n%c%F%f\n%# '
 
 # history コマンドに日時を表示させる
 export HISTTIMEFORMAT='%F %T '
 
+# anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
 
+#pyenv
+# export PYENV_ROOT="$HOME/.anyenv/pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
+
+#yvm
 if [ -f ${HOME}/.yvm/yvm.sh ]; then
        source ~/.yvm/yvm.sh
 fi
@@ -90,21 +98,21 @@ select-word-style bash
 
 #pecoでhistory検索
 function peco-select-history() {
-       BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
-       CURSOR=$#BUFFER
-       zle clear-screen
+  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
 }
 zle -N peco-select-history
 bindkey '^r' peco-select-history
 
 # search a destination from cdr list
-function peco-get-destination-from-cdr() {
-       cdr -l | \
-       sed -e 's/^[[:digit:]]*[[:blank:]]*//' | \
-       peco --query "$LBUFFER"
+function find_cd() {
+    cd "$(find . -type d | peco)"
 }
+alias fc="find_cd"
 
 export YVM_DIR=/Users/mihiro.h/.yvm
 [ -r $YVM_DIR/yvm.sh ] && . $YVM_DIR/yvm.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+

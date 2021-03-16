@@ -53,9 +53,9 @@ rmbranch () {
 alias gh='cd $(ghq list -p | peco)'
 alias codef='find . -type d \( -name .git -o -name node_modules \) -prune -o -print | peco X code'
 
-alias practice='cd /Users/mihiro/Documents/practice'
+alias practice='cd /Users/mihiro.h/Documents/practice'
 if [ `uname` = "Darwin" ]; then
-  alias ip='ipconfig getifaddr en0 | pbcopy'
+  alias ip='ipconfig getifaddr en0 | pbcopy && pbpaste'
 fi
 
 
